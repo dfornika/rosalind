@@ -3,11 +3,11 @@ module Main where
 main :: IO()
 main = do
   seq <- getLine
-  putStrLn (map dna2rna seq)
+  putStrLn $ reverse $ map complement seq
 
-dna2rna :: Char -> Char
-dna2rna 'A' = 'A'
-dna2rna 'C' = 'C'
-dna2rna 'G' = 'G'
-dna2rna 'T' = 'U'
-dna2rna  _  = 'N'
+complement :: Char -> Char
+complement 'A' = 'T'
+complement 'C' = 'G'
+complement 'G' = 'C'
+complement 'T' = 'A'
+complement  _  = 'N' 
