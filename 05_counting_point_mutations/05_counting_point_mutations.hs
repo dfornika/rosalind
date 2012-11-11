@@ -4,6 +4,12 @@ main :: IO()
 main = do
   seq1 <- getLine
   seq2 <- getLine
-  putStrLn seq1
-  putStrLn seq2
 
+  putStrLn $ show $ sum $ detectDiffs seq1 seq2
+
+detectDiffs :: String -> String -> [Int]
+detectDiffs [] [] = []
+detectDiffs (x:xs) (y:ys)
+    | x == y = 0 : detectDiffs xs ys
+    | x /= y = 1 : detectDiffs xs ys  
+    
