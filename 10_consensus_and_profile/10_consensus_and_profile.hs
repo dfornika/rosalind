@@ -5,26 +5,34 @@ import Data.List (findIndices)
 main :: IO ()
 main = do
   input <- getContents
+
   let seqs = lines input
-  
+  let posList = [1..(length $ seqs!!0)]
+
   mapM_ putStrLn seqs
-  putStrLn $ show $ countOccurences (seqs!!0) 'A'
   
   putStrLn $ map head seqs  
   
-  putStrLn $ show $ oneProfile seqs
+  putStrLn $ show $ map (oneProfile seqs) posList
 
 countOccurences :: String -> Char -> Int
 countOccurences seq base = length $ findIndices (\x -> x == base) seq
 
-oneProfile :: [String] -> [Int]
-oneProfile [] = []
-oneProfile seqs = countOccurences currentColumn 'A' 
-                : countOccurences currentColumn 'C'
-                : countOccurences currentColumn 'G'
-                : countOccurences currentColumn 'T'
-                : []
-    where currentColumn = map head seqs
+{-- Take a list of DNA sequences, plus a position and return the 
+    profile for that position in the order [A, C, G, T]
+
+    e.g. ["AATCT"
+         ,"ACTTT"  -> 2 -> [2,1,0,0]
+         ,"TAGGT"]
+--}
+oneProfile :: [String] -> Int -> [Int]
+oneProfile [] _ = []
+oneProfile seqs pos = countOccurences currentColumn 'A' 
+                    : countOccurences currentColumn 'C'
+                    : countOccurences currentColumn 'G'
+                    : countOccurences currentColumn 'T'
+                    : []
+    where currentColumn = map (!!(pos-1)) seqs
 
 int2base :: Int -> Char
 int2base 0 = 'A'
