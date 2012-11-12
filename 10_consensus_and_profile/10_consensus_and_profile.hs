@@ -1,6 +1,7 @@
 module Main where
 
 import Data.List (findIndices)
+import Text.Printf (printf)
 
 main :: IO ()
 main = do
@@ -9,11 +10,25 @@ main = do
   let seqs = lines input
   let posList = [1..(length $ seqs!!0)]
 
-  mapM_ putStrLn seqs
+  mapM_ putStrLn seqs 
   
-  putStrLn $ map head seqs  
+  let profileMatrix =  map (oneProfile seqs) posList
   
-  putStrLn $ show $ map (oneProfile seqs) posList
+  printf "%s" "A: "
+  mapM_ (printf "%d ") (map (!!0) profileMatrix)
+  printf "%s" "\n"
+
+  printf "%s" "C: "
+  mapM_ (printf "%d ") (map (!!1) profileMatrix)
+  printf "%s" "\n"
+
+  printf "%s" "G: "
+  mapM_ (printf "%d ") (map (!!2) profileMatrix)
+  printf "%s" "\n"
+
+  printf "%s" "T: "
+  mapM_ (printf "%d ") (map (!!3) profileMatrix)
+  printf "%s" "\n"
 
 countOccurences :: String -> Char -> Int
 countOccurences seq base = length $ findIndices (\x -> x == base) seq
@@ -34,6 +49,8 @@ oneProfile seqs pos = countOccurences currentColumn 'A'
                     : []
     where currentColumn = map (!!(pos-1)) seqs
 
+-- Quick utility function useful for working with lists 
+-- that are formatted [A, C, G, T]
 int2base :: Int -> Char
 int2base 0 = 'A'
 int2base 1 = 'C'
