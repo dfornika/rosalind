@@ -1,6 +1,5 @@
 module Main where
 
-import IO
 import Control.Monad
 import Data.Map (fromListWith, elems)
 import Data.List (intersperse)
