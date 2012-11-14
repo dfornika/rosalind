@@ -1,15 +1,17 @@
 module Main where
 
 import qualified Data.Map as Map
-import Control.Monad (liftM)
-import Text.Printf (printf)
+import Data.Int(Int64)
 
 main :: IO ()
 main = do
   seq <- getLine
   
   -- oof, this one's ugly
-  putStrLn $ show $ (foldl1 (*) (map aa2int seq)) * 3 `mod` 1000000
+  putStrLn $ show $ (foldl1 (modMultiply 1000000) (3:(map aa2int seq)))
+
+modMultiply :: Int -> Int -> Int -> Int 
+modMultiply m a b = (a `mod` m) * b
 
 aa2int :: Char -> Int
 aa2int aa = Map.findWithDefault 1 aa aaMap
