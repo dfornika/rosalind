@@ -8,7 +8,7 @@ main = do
   seq <- getLine
   
   -- oof, this one's ugly
-  putStrLn $ show $ (foldl1 (modMultiply 1000000) (3:(map aa2int seq)))
+  putStrLn $ show $ (foldl1 (modMultiply 1000000) (3:(map aa2int seq))) `mod` 1000000
 
 modMultiply :: Int -> Int -> Int -> Int 
 modMultiply m a b = (a `mod` m) * b
