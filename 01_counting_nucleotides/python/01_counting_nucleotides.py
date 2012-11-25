@@ -6,5 +6,5 @@ seq = sys.stdin.readline().strip()
 
 nucleotide_counts = dict((base, seq.count(base)) for base in seq)
 
-for base in ['A', 'C', 'G', 'T']:
+for base in nucleotide_counts.keys():
   print nucleotide_counts[base],
