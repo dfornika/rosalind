@@ -6,21 +6,21 @@ import Data.Int(Int64)
 main :: IO ()
 main = do
   seq <- getLine
-  
-  -- oof, this one's ugly
-  putStrLn $ show $ (foldl1 (modMultiply 1000000) (3:(map aa2int seq))) `mod` 1000000
 
-modMultiply :: Int -> Int -> Int -> Int 
-modMultiply m a b = (a `mod` m) * b
+  -- Note that 3 is appended to the input seq because
+  -- there are three possible stop codons
+  putStrLn $ show $
+    (foldl1 (*) (3:(map aa2int seq))) `mod` 1000000
 
-aa2int :: Char -> Int
+-- Map each amio acid to the number of possible codons that encode that aa
+aa2int :: Char -> Integer
 aa2int aa = Map.findWithDefault 1 aa aaMap
            where aaMap = Map.fromList [ ('F', 2)
                                       , ('L', 6)
                                       , ('I', 3)
                                       , ('M', 1)
                                       , ('V', 4)
-                                      , ('S', 4)
+                                      , ('S', 6)
                                       , ('P', 4)
                                       , ('T', 4)
                                       , ('A', 4)
@@ -34,5 +34,4 @@ aa2int aa = Map.findWithDefault 1 aa aaMap
                                       , ('C', 2)
                                       , ('W', 1)
                                       , ('R', 6)
-                                      , ('S', 2)
                                       , ('G', 4) ]
