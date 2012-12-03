@@ -1,12 +1,13 @@
 main :: IO ()
 main = do
   seq <- getLine
-  putStrLn $ show $ findPalindrome 4 seq
+  putStrLn $ show $ map (findPalindrome seq) [4..12]
 
-findPalindrome :: Int -> String -> Bool
-findPalindrome n seq
-  | take n seq == revComp (take n seq) = True
-  | otherwise  =  False
+findPalindrome :: String -> Int -> [(Bool, Int)]
+findPalindrome [] n = []
+findPalindrome seq n
+  | take n seq == revComp (take n seq) = (True, n):findPalindrome (tail seq) n
+  | take n seq /= revComp (take n seq) = (False, n):findPalindrome (tail seq) n
 
 revComp :: String -> String
 revComp seq = reverse $ map complement seq
