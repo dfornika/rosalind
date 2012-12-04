@@ -29,7 +29,7 @@ main = do
   let outputMap = Map.fromList $
                   zip (concat $ map (pairUp slPairs) slPairs)
                       (map (matchSeqs 3) combinations)
-  putStrLn $ show outputMap
+  putStrLn $ show (Map.filter (== True) outputMap)
 
 matchSeqs :: Int -> ((String, String), (String, String)) -> Bool
 matchSeqs n ((l1, s1), (l2, s2))
