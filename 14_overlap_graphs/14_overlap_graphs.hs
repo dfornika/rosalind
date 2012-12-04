@@ -26,10 +26,11 @@ main = do
       indicating whether the last three bases of the first sequence
       match the first three bases of the second sequence
   --}
-  let outputMap = Map.fromList $
+  let outputMap = Map.filter (== True) $
+                  Map.fromList $
                   zip (concat $ map (pairUp slPairs) slPairs)
                       (map (matchSeqs 3) combinations)
-  putStrLn $ show (Map.filter (== True) outputMap)
+  mapM_ putStrLn $ map printOneOutput (Map.keys outputMap)
 
 matchSeqs :: Int -> ((String, String), (String, String)) -> Bool
 matchSeqs n ((l1, s1), (l2, s2))
@@ -49,3 +50,6 @@ seq2string = B.unpack . unSD
 
 label2string :: SeqLabel -> String
 label2string = B.unpack . unSL
+
+printOneOutput :: ((String, String), (String, String)) -> String
+printOneOutput ((l1, s1), (l2, s2)) = l1 ++ " " ++ l2
