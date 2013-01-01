@@ -1,17 +1,17 @@
 module Main where
 
 import Control.Monad (liftM)
-import Data.List (isInfixOf)
+import Data.List (isInfixOf, subsequences, sortBy, nub)
+import Data.Ord (comparing)
 
 main :: IO()
 main = do
   seqs <- liftM lines $ getContents
 
-  putStrLn $ subTwo (seqs!!0) (seqs!!1)
+  putStrLn $ subTwoSeqs (seqs!!0) (seqs!!1)
 
-subTwo :: String -> String -> String
-subTwo (x:xs) y = if (x:xs) == y
-                   then y
-                   else if xs `isInfixOf` y
-                        then xs
-                        else subTwo xs y
+subTwoSeqs :: String -> String -> String
+subTwoSeqs [] _ = []
+subTwoSeqs _ [] = []
+subTwoSeqs x y = head $ reverse $ sortBy (comparing length)
+                 [matches | matches <- (nub . subsequences) x, (matches `isInfixOf` y && matches `isInfixOf` x)]
