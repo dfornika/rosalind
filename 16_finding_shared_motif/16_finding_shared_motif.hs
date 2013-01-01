@@ -1,11 +1,17 @@
 module Main where
 
-import System.Environment (getArgs)
 import Control.Monad (liftM)
+import Data.List (isInfixOf)
 
 main :: IO()
 main = do
-  inFile <- liftM head getArgs
-  seqs <- liftM words $ readFile inFile
+  seqs <- liftM lines $ getContents
 
-  putStrLn $ show $ seqs
+  putStrLn $ subTwo (seqs!!0) (seqs!!1)
+
+subTwo :: String -> String -> String
+subTwo (x:xs) y = if (x:xs) == y
+                   then y
+                   else if xs `isInfixOf` y
+                        then xs
+                        else subTwo xs y
