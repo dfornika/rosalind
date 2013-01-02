@@ -8,10 +8,10 @@ main :: IO()
 main = do
   seqs <- liftM lines $ getContents
 
-  putStrLn $ subTwoSeqs (seqs!!0) (seqs!!1)
+  putStrLn $ foldl findMotif2 (head seqs) (tail seqs)
 
-subTwoSeqs :: String -> String -> String
-subTwoSeqs [] _ = []
-subTwoSeqs _ [] = []
-subTwoSeqs x y = head $ reverse $ sortBy (comparing length)
+findMotif2 :: String -> String -> String
+findMotif2 [] _ = []
+findMotif2 _ [] = []
+findMotif2 x y = head $ reverse $ sortBy (comparing length)
                  [matches | matches <- (nub . subsequences) x, (matches `isInfixOf` y && matches `isInfixOf` x)]
