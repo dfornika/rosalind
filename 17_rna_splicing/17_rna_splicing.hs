@@ -2,6 +2,7 @@ module Main where
 
 import Control.Monad (liftM)
 import Data.Maybe (fromJust)
+import Data.Map (findWithDefault, fromList)
 import qualified Data.Text as T
 
 main = do
