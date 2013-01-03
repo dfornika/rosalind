@@ -14,8 +14,8 @@ main = do
   mapM_ putStrLn $ (map show acceptors)
 
 translate :: String -> Char
-translate key = Map.findWithDefault 'X' key codonMap
-                where codonMap = Map.fromList [ ("UUU", 'F')
+translate key = findWithDefault 'X' key codonMap
+                where codonMap = fromList [ ("UUU", 'F')
                                               , ("UUC", 'F')
                                               , ("UUA", 'L')
                                               , ("UUG", 'L')
