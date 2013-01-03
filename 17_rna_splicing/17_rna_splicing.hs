@@ -1,17 +1,21 @@
 module Main where
 
 import Control.Monad (liftM)
-import Data.Maybe (fromJust)
 import Data.Map (findWithDefault, fromList)
-import qualified Data.Text as T
+import Data.String.Utils (split, replace)
 
 main = do
-  (genomicSeq:introns) <- liftM (T.lines . T.pack) $ getContents
-  let splices = map (flip T.breakOn genomicSeq) introns
-  let donors  = map fst splices
-  let acceptors = zipWith T.stripPrefix introns (map snd splices)
-  mapM_ putStrLn $ (map show donors)
-  mapM_ putStrLn $ (map show acceptors)
+  (genomicSeq:introns) <- liftM lines $ getContents
+  let spliced = foldl (\x -> \y -> concat $ split y x)  genomicSeq introns
+
+  putStrLn $ map translate $ chunk 3 $ replace "T" "U" spliced
+
+-- This chunk function courtesy of:
+-- http://www.haskell.org/haskellwiki/Data.List.Split
+chunk :: Int -> [a] -> [[a]]
+chunk n [] = []
+chunk n xs = ys : chunk n zs
+  where (ys,zs) = splitAt n xs
 
 translate :: String -> Char
 translate key = findWithDefault 'X' key codonMap
