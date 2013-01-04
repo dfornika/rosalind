@@ -8,7 +8,7 @@ main = do
 
   printf "%.3f\n" $ foldl (+) 0 $ map char2weight aminoAcid
 
-char2weight :: Char -> Float
+char2weight :: Char -> Double
 char2weight key = findWithDefault 0.000 key codonMap
                   where codonMap = fromList [ ('A',  71.03711)
                                             , ('C', 103.00919)
