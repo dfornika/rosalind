@@ -8,21 +8,14 @@ import Data.Char (isSpace, digitToInt)
 main = do
   alphabet <- liftM (filter (/= ' ')) $ getLine
   n <- liftM (\x -> read x :: Int) $ getLine
-  let alphaMap  = fromList $ zip alphabet [0..]
-  let alphaMap' = fromList $ zip [0..] alphabet
+  let alphaMap  = fromList $ zip alphabet [1..]
+  let alphaMap' = fromList $ zip [1..] alphabet
 
   let allStrings   = n `replicateM` alphabet
   let allStrings'  = sort $ map fromDigits $ map (map (char2int alphaMap)) allStrings
   let allStrings'' = map (map (int2char alphaMap')) $ map toDigits allStrings'
 
-  putStrLn $ show $ allStrings
-  putStrLn $ show $ allStrings'
-  putStrLn $ show $ allStrings''
-  putStrLn $ show $ alphaMap
-  putStrLn $ show $ alphaMap'
-  putStrLn $ show $ n
-
---  mapM_ putStrLn $ sortBy ordering allStrings
+  mapM_ putStrLn $ allStrings''
 
 ordering :: String -> String -> Ordering
 ordering = undefined
