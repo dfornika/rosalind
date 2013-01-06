@@ -11,7 +11,7 @@ main = do
   let alphaMap  = fromList $ zip alphabet [1..]
   let alphaMap' = fromList $ zip [1..] alphabet
 
-  let allStrings   = n `replicateM` alphabet
+  let allStrings   = [1..n] >>= (`replicateM` alphabet)
   let allStrings'  = sort $ map fromDigits $ map (map (char2int alphaMap)) allStrings
   let allStrings'' = map (map (int2char alphaMap')) $ map toDigits allStrings'
 
