@@ -4,27 +4,31 @@ import Data.Map (Map, fromList, findWithDefault)
 import Data.List (sortBy, sort)
 import Control.Monad (liftM, replicateM)
 import Data.Char (isSpace, digitToInt)
+import Numeric (showHex)
 
 main = do
   alphabet <- liftM (filter (/= ' ')) $ getLine
   n <- liftM (\x -> read x :: Int) $ getLine
-  let alphaMap  = fromList $ zip alphabet [1..]
-  let alphaMap' = fromList $ zip [1..] alphabet
+  let alphaMap  = fromList $ zip alphabet ['A'..'Z']
+  let alphaMap' = fromList $ zip ['A'..'Z'] alphabet
 
+  -- allStrings is the list of all possible strings of length =< n drawn
+  -- from the input alphabet eg. ["D", "N", "A", "DD", "DN".."AAA"]
   let allStrings   = [1..n] >>= (`replicateM` alphabet)
-  let allStrings'  = sort $ map fromDigits $ map (map (char2int alphaMap)) allStrings
-  let allStrings'' = map (map (int2char alphaMap')) $ map toDigits allStrings'
+
+  -- allStrings' is a representation of the set of all strings, with each letter
+  -- replaced by its corresponding letter from the conventional romal alphabet ['A'..'Z']
+  -- and sorted accordingly
+  -- eg. ["A", "AB", "ABC", "B".."CCC"]
+  let allStrings'  = sort $ map (map (char2char alphaMap)) allStrings
+
+  -- allStrings'' has the list coverted back to the original alphabet
+  let allStrings'' = map (map (char2char alphaMap')) allStrings'
 
   mapM_ putStrLn $ allStrings''
 
-ordering :: String -> String -> Ordering
-ordering = undefined
-
-char2int :: Map Char Int -> Char -> Int
-char2int m a = findWithDefault 0 a m
-
-int2char :: Map Int Char -> Int -> Char
-int2char m i = findWithDefault '*' i m
+char2char :: Map Char Char -> Char -> Char
+char2char m i = findWithDefault '*' i m
 
 -- handy function to convert eg. [1,2,3] -> 123
 -- from user sth on this thread: http://stackoverflow.com/a/1918515
