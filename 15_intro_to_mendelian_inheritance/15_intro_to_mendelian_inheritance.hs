@@ -7,7 +7,7 @@ main :: IO ()
 main = do
   -- It's ugly, but this line takes a string of whitespace-separated
   -- numbers from stdin and returns a list of integers
-  input <- liftM (map (\x -> read x :: Int)) $ liftM words getLine
+  input <- liftM ((map (\x -> read x :: Int)) . words) $ getLine
   putStrLn $ show $ fromRational $
     probSecondMateHomoDom (probFirstMateHomoDom (input!!0) (input!!1) (input!!2)) (input!!0) (input!!1) (input!!2)
 --  putStrLn $ show $ fromRational $
