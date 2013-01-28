@@ -1,13 +1,15 @@
 module Main where
 
-import Control.Monad (liftM)
+import Control.Monad (liftM, replicateM)
+import Data.List(permutations, intersperse)
 
 main :: IO ()
 main = do
-  -- It's ugly, but this line takes a string of whitespace-separated
-  -- numbers from stdin and returns a list of integers
   input <- liftM (\x -> read x :: Int) getLine
 
-  let intList = [1..input]
+  let intList = permutations [1..input]
+  let ones    = replicateM input [1,-1]
+  let output = [zipWith (*) x y | x <- intList, y <- ones]
 
-  putStrLn $ show $ intList
+  putStrLn $ show $ length output
+  mapM_ putStrLn $ map concat $ map (intersperse " ") $ map (map show) output
