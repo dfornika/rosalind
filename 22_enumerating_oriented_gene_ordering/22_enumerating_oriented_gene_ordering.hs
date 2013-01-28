@@ -8,6 +8,6 @@ main = do
   -- numbers from stdin and returns a list of integers
   input <- liftM (\x -> read x :: Int) getLine
 
-  let output = input
+  let intList = [1..input]
 
-  putStrLn $ show $ x
+  putStrLn $ show $ intList
