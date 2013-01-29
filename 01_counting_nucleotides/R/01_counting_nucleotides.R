@@ -3,6 +3,14 @@
 input <- readLines('stdin', n=1, warn=FALSE)
 
 countBases <- function(base, seq) {
+  # Count the occurences of a character or substring in a string
+  # 
+  # Args:
+  #   base: A character, string or regex to be searched for
+  #   seq:  The string to be searched in.
+  #
+  # Returns:
+  #   The number of occurences of base in seq.
   n <- length(attr(gregexpr(pattern=base, text=seq)[[1]], "match.length"))
   return(n)
 }
