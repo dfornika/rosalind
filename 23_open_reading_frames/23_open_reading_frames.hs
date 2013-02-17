@@ -1,6 +1,8 @@
 module Main where
 
 import qualified Data.Map as Map
+import Data.List.Split (chunksOf, endBy)
+import Data.List (nub)
 
 main :: IO()
 main = do
@@ -8,21 +10,16 @@ main = do
   fwd    <- getLine
   let rev = map complement $ reverse fwd
 
-  mapM_ putStrLn $ findOrfs fwd
-  mapM_ putStrLn $ findOrfs (drop 1 fwd)
-  mapM_ putStrLn $ findOrfs (drop 2 fwd)
-  mapM_ putStrLn $ findOrfs rev
-  mapM_ putStrLn $ findOrfs (drop 1 rev)
-  mapM_ putStrLn $ findOrfs (drop 2 rev)
+  mapM_ putStrLn $ nub $ concatMap findOrfs
+    $ [fwd, (drop 1 fwd), (drop 2 fwd), rev, (drop 1 rev), (drop 2 rev)]
 
+--
 findOrfs :: String -> [String]
-findOrfs seq = splitAt '*' aaString
-  where aaString = dropWhile (/= 'M') $ map translate $ chunk 3 seq
-
-chunk :: Int -> [a] -> [[a]]
-chunk n [] = []
-chunk n xs = ys : chunk n zs
-  where (ys,zs) = splitAt n xs
+findOrfs seq = nub $ filter (\x -> head x == 'M') aaStrings
+  where aaStrings =   endBy "*"
+                    $ dropWhile (/= 'M')
+                    $ map translate
+                    $ chunksOf 3 seq
 
 complement :: Char -> Char
 complement 'A' = 'T'
