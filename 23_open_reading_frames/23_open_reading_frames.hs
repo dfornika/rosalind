@@ -1,13 +1,19 @@
 module Main where
 
 import qualified Data.Map as Map
+import Control.Monad (liftM)
+import qualified Data.ByteString.Lazy.Char8 as B
+import System.Environment (getArgs)
 import Data.List.Split (chunksOf, endBy)
 import Data.List (nub)
 
+import Bio.Core.Sequence
+import Bio.Sequence.Fasta
+
 main :: IO()
 main = do
-  header <- getLine
-  fwd    <- getLine
+  file <- liftM head $ getArgs
+  fwd    <- liftM (B.unpack . unSD . seqdata . head) $ readFasta file
   let rev = map complement $ reverse fwd
 
   mapM_ putStrLn $ nub $ concatMap findOrfs
@@ -18,7 +24,7 @@ main = do
 -- trim everything past the last stop codon.          "NGMRMQ*KLMRQ*QTG*"
 -- split on stop codons (represented by '*')         ["NGMRMQ","KLMRQ","QTG"]
 -- trim the front of each list down to the first 'M' ["MRMQ","MRQ",""]
--- for each orf, find all 'internal orfs'            ["MRMQ", "MQ","",MRQ",""]
+-- for each orf, find all 'internal orfs'            ["MRMQ", "MQ","","MRQ",""]
 -- remove empty orfs                                 ["MRMQ","MQ",MRQ"]
 findOrfs :: String -> [String]
 findOrfs seq = aaStrings
