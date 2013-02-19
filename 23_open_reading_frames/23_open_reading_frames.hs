@@ -13,13 +13,26 @@ main = do
   mapM_ putStrLn $ nub $ concatMap findOrfs
     $ [fwd, (drop 1 fwd), (drop 2 fwd), rev, (drop 1 rev), (drop 2 rev)]
 
---
+-- Strategy:
+-- generate an amino acid String                  eg. "NGMRMQ*KLMRQ*QTG*LLM"
+-- trim everything past the last stop codon.          "NGMRMQ*KLMRQ*QTG*"
+-- split on stop codons (represented by '*')         ["NGMRMQ","KLMRQ","QTG"]
+-- trim the front of each list down to the first 'M' ["MRMQ","MRQ",""]
+-- for each orf, find all 'internal orfs'            ["MRMQ", "MQ","",MRQ",""]
+-- remove empty orfs                                 ["MRMQ","MQ",MRQ"]
 findOrfs :: String -> [String]
-findOrfs seq = nub $ filter (\x -> head x == 'M') aaStrings
-  where aaStrings =   endBy "*"
-                    $ dropWhile (/= 'M')
+findOrfs seq = aaStrings
+  where aaStrings = filter (/= "")
+                    $ (\x -> x ++ concatMap findInternalOrfs x)
+                    $ map (dropWhile (/= 'M'))
+                    $ endBy "*"
+                    $ reverse $ (dropWhile (/= '*') . reverse)
                     $ map translate
                     $ chunksOf 3 seq
+
+findInternalOrfs :: String -> [String]
+findInternalOrfs "" = []
+findInternalOrfs (x:xs) = (dropWhile (/= 'M') xs) : (findInternalOrfs $ dropWhile (/='M') xs)
 
 complement :: Char -> Char
 complement 'A' = 'T'
