@@ -7,7 +7,6 @@ int main (int argc, char *argv) {
 
   fgets(s, MAX_STRING_LEN, stdin);
 
-  int i = 0;
   for (int i = 0; i < MAX_STRING_LEN; i++) {
     if(s[i] == 'T') {
       s[i] = 'U';
