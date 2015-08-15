@@ -21,7 +21,8 @@
 
 (define (main args)
   (define infile
-    (open-input-file (cadr (command-line))))
+    (current-input-port))
+    
   (define s
     (read-line infile))
 
