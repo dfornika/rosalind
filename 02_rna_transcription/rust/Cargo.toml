@@ -1,0 +1,5 @@
+[package]
+name = "02_rna_transcription"
+version = "0.1.0"
+authors = ["Dan Fornika <dfornika@gmail.com>"]
+
