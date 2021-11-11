@@ -1,7 +1,11 @@
-.PHONY: all clean
+default: rna_transcription
 
-all:
-  gcc -o rna_transcription 02_rna_transcription.c
+rna_transcription.o: rna_transcription.c
+	cc -c rna_transcription.c -o rna_transcription.o
+
+rna_transcription: rna_transcription.o
+	cc rna_transcription.o -o rna_transcription
 
 clean:
-  rm rna_transcription
+	-rm -f rna_transcription.o
+	-rm -f rna_transcription
