@@ -1,4 +1,4 @@
 [package]
-name = "01_counting_nucleotides"
+name = "counting_nucleotides"
 version = "0.1.0"
 authors = ["Dan Fornika <dfornika@gmail.com>"]
