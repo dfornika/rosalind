@@ -1,17 +1,17 @@
 #include <stdio.h>
 
-struct BaseCounts {
+typedef struct BaseCounts {
   int a;
   int c;
   int g;
   int t;
-};
+} BaseCounts;
 
 int MAX_STRING_LEN = 1000;
 
 int main (int argc, char *argv) {
   char s[MAX_STRING_LEN];
-  struct BaseCounts counts = {0, 0, 0, 0};
+  BaseCounts counts = {0, 0, 0, 0};
 
   fgets(s, MAX_STRING_LEN, stdin);
 
