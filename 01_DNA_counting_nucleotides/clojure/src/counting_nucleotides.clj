@@ -24,5 +24,4 @@
        (mapcat s/trim-newline)
        (reduce count-item {})
        format-output
-       ;_(#(apply str (interpose " " [(:A %) (:C %) (:G %) (:T %)])))
        println))
