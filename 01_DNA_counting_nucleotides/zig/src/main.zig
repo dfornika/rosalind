@@ -9,13 +9,8 @@ const BaseCount = struct {
 
 const INPUT_BUFFER_SIZE = 1024;
 
-
-
 pub fn main() !void {
 
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
     const stdin = std.io.getStdIn().reader();
     const stdout = std.io.getStdOut().writer();
 
