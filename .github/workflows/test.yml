@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install rlwrap
+        run: apt-get install -y rlwrap
       - name: Prepare java
         uses: actions/setup-java@v3
         with:
@@ -19,4 +21,4 @@ jobs:
         with:
           cli: latest
       - name: Run tests
-        run: for dir in */clojure; do pushd ${dir} && ./run.sh && popd; done
+        run: for dir in ${PWD}/*/clojure; do pushd ${dir} && ./run.sh && popd; done
