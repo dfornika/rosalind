@@ -11,4 +11,4 @@ def complement(s):
   letters = [basecomplement[base] for base in letters]
   return ''.join(letters)
 
-print complement(seq[::-1])
+print(complement(seq[::-1]))
